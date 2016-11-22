@@ -25,6 +25,8 @@ local function make_modules()
     ['splonebox.stdio_stream'] = 'splonebox/stdio_stream.lua',
     ['splonebox.child_process_stream'] = 'splonebox/child_process_stream.lua',
     ['splonebox.msgpack_rpc_stream'] = 'splonebox/msgpack_rpc_stream.lua',
+    ['splonebox.crypto_stream'] = 'splonebox/crypto_stream.lua',
+    ['splonebox.crypto'] = 'splonebox/crypto.lua',
     ['splonebox.session'] = 'splonebox/session.lua',
     ['splonebox.native'] = {
       sources = {'splonebox/native.c'}
