@@ -13,7 +13,7 @@ dependencies = {
   'mpack',
   'luv',
   'coxpcall',
-  'nacl',
+  'luatweetnacl',
   'struct',
   'luaposix'
 }

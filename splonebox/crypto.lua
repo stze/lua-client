@@ -1,5 +1,5 @@
 local struct = require("struct")
-local nacl = require("nacl")
+local nacl = require("luatweetnacl")
 local posix = require("posix.fcntl")
 local bit = require("bit")
 local gcrypt = require("luagcrypt")

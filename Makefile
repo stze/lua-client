@@ -24,7 +24,7 @@ BUSTED ?= $(DEPS_BIN)/busted
 LUV ?= $(DEPS_PREFIX)/lib/luarocks/rocks/luv
 MPACK ?= $(DEPS_PREFIX)/lib/luarocks/rocks/mpack
 COXPCALL ?= $(DEPS_PREFIX)/lib/luarocks/rocks/coxpcall
-NACL ?= $(DEPS_PREFIX)/lib/luarocks/rocks/nacl
+LUATWEETNACL ?= $(DEPS_PREFIX)/lib/luarocks/rocks/luatweetnacl
 STRUCT ?= $(DEPS_PREFIX)/lib/luarocks/rocks/struct
 POSIX ?= $(DEPS_PREFIX)/lib/luarocks/rocks/posix
 LUABITOP ?= $(DEPS_PREFIX)/lib/luarocks/rocks/luabitop
@@ -85,8 +85,8 @@ $(LUV): $(LUAROCKS)
 $(MPACK): $(LUAROCKS)
 	$(LUAROCKS) install mpack
 
-$(NACL): $(LUAROCKS)
-	$(LUAROCKS) install nacl
+$(LUATWEETNACL): $(LUAROCKS)
+	$(LUAROCKS) install luatweetnacl
 
 $(STRUCT): $(LUAROCKS)
 	$(LUAROCKS) install struct
