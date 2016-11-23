@@ -1,32 +1,35 @@
 local Crypto = require('splonebox.crypto')
+local nacl = require("luatweetnacl")
 local uv = require('luv')
 
 local CryptoStream = {}
 CryptoStream.__index = CryptoStream
 
-local clpk = Crypto:load_key(".keys/client-long-term.pub")
-local clsk = Crypto:load_key(".keys/client-long-term")
+--local clpk = Crypto:load_key(".keys/client-long-term.pub")
+--local clsk = Crypto:load_key(".keys/client-long-term")
+local clpk, clsk = nacl.box_keypair()
 local slpk = Crypto:load_key(".keys/server-long-term.pub")
-local c = Crypto.new(clpk, clsk, slpk)
+--local c = Crypto.new(clpk, clsk, slpk)
 
-function CryptoStream.new(stream)
+function CryptoStream.new(stream, keysdir)
   return setmetatable({
-    _stream = stream
+    _stream = stream,
+    _crypto = Crypto.new(clpk, clsk, slpk, keysdir)
   }, CryptoStream)
 end
 
 function CryptoStream:init()
-  hello = c:crypto_hello()
+  hello = self._crypto:crypto_hello()
   self._stream:write(hello)
 end
 
 function CryptoStream:encrypt(data)
   print(data)
-  return c:crypto_write(data)
+  return self._crypto:crypto_write(data)
 end
 
 function CryptoStream:decrypt(data)
-  return c:crypto_read(data)
+  return self._crypto:crypto_read(data)
 end
 
 function CryptoStream:read_start(cb, eof_cb)
@@ -39,7 +42,7 @@ function CryptoStream:read_start(cb, eof_cb)
     local pos = 1
     local len = #data
 
-    initiate = c:crypto_initiate(data)
+    initiate = self._crypto:crypto_initiate(data)
     self._stream:write(initiate)
 
     uv.stop()

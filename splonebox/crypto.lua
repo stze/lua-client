@@ -18,11 +18,12 @@ local lock = {
   l_len = 0;              -- Lock whole file
 }
 
-function Crypto.new(clientlongtermpk, clientlongtermsk, serverlongtermpk)
+function Crypto.new(clientlongtermpk, clientlongtermsk, serverlongtermpk, keyspath)
   local self = setmetatable({}, Crypto)
   self.serverlongtermpk = serverlongtermpk
   self.clientlongtermpk = clientlongtermpk
   self.clientlongtermsk = clientlongtermsk
+  self.keyspath = keyspath
   self.clientshorttermsk = nil
   self.clientshorttermpk = nil
   self.servershorttermpk = nil
@@ -80,7 +81,7 @@ function open_write(filename)
   return fd
 end
 
-function save_sync(filename, data)
+function Crypto:save_sync(filename, data)
   fd = open_write(filename)
   filed = io.open(fd, "wb")
   filed:write(data)
@@ -88,19 +89,19 @@ function save_sync(filename, data)
 end
 
 function Crypto:safenonce()
-  fdlock = open_lock(".keys/lock")
+  fdlock = open_lock(self.keyspath .. "/lock")
 
   if keyloaded == false then
-    noncekey = self:load_key(".keys/noncekey")
+    noncekey = self:load_key(self.keyspath .. "/noncekey")
   end
 
   if counterlow >= counterhigh then
-    noncecounter = self:load_key(".keys/noncecounter")
+    noncecounter = self:load_key(self.keyspath .. "/noncecounter")
     counterlow = struct.unpack("<I8", noncecounter)
     counterhigh = counterlow + 1
 
     data = struct.pack("<I8", counterhigh)
-    save_sync(".keys/noncecounter", data)
+    self:save_sync(self.keyspath .. "/noncecounter", data)
   end
 
   data = struct.pack("<I8c8", counterlow, nacl.randombytes(8))
