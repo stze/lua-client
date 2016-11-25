@@ -15,7 +15,7 @@ DEPS_PREFIX ?= $(DEPS_DIR)/usr
 DEPS_BIN ?= $(DEPS_PREFIX)/bin
 
 # Lua-related configuration
-LUA_URL ?= http://www.lua.org/ftp/lua-5.2.4.tar.gz
+LUA_URL ?= http://www.lua.org/ftp/lua-5.1.5.tar.gz
 LUAROCKS_URL ?= https://github.com/keplerproject/luarocks/archive/v2.2.0.tar.gz
 LUA_TARGET ?= linux
 LUA ?= $(DEPS_BIN)/lua
